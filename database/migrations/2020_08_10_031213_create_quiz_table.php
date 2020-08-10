@@ -17,9 +17,9 @@ class CreateQuizTable extends Migration
             $table->bigIncrements('id');
             $table->string('participant_name');
             $table->string('site_id');
-            $table->enum('study_id', ['study1', 'study2', 'study3', 'study4', 'study5']);
+            $table->string('study_id');
             $table->integer('country_id');
-            $table->enum('country', ['polland', 'russia', 'german', 'uk', 'usa']);
+            $table->string('country');
             $table->enum('document', ['uploaded', 'econsent'])->default('econsent');
             $table->string('remark')->nullable();
             $table->enum('quiz_completion', ['complete', 'incomplete'])->default('incomplete');

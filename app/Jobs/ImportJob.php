@@ -36,17 +36,12 @@ class ImportJob implements ShouldQueue
      */
     public function handle()
     {
-        // READ DATA DARI FILE CSV YANG DISIMPAN DIDALAM FOLDER
-        // STORAGE > APP > PUBLIC > IMPORT > NAMAFILE.CSV
         $csv = Reader::createFromPath(storage_path('app/public/import/' . $this->filename), 'r');
-        //BARIS PERTAMA DI-SET SEBAGAI KEY DARI ARRAY YANG DIHASILKAN
         $csv->setHeaderOffset(0);
 
-        //LOOPING DATA YANG TELAH DI-LOAD
         foreach ($csv as $row) {
-            //SIMPAN KE DALAM TABLE USER
             Quiz::create([
-                'participant' => strtolower($row['participant_name']),
+                'participant_name' => strtolower($row['participant_name']),
                 'site_id' => strtolower($row['site_id']),
                 'study_id' => strtolower($row['study_id']),
                 'country_id' => $row['country_id'],
@@ -55,7 +50,6 @@ class ImportJob implements ShouldQueue
                 'quiz_completion' => strtolower($row['quiz_completion'])
             ]);
         }
-        //APABILA PROSES TELAH SELESAI, FILE DIHAPUS.
         File::delete(storage_path('app/public/import/' . $this->filename));
     }
 }
