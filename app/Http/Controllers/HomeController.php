@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Charts;
+use App\User;
+use App\Quiz;
+use DB;
+use DataTables;
 
 class HomeController extends Controller
 {
@@ -23,6 +28,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $quiz = Quiz::all();
+        $chart = Charts::database($quiz, 'pie', 'highcharts')
+			      ->title("Total user quiz completion")
+			      ->elementLabel("Total Users")
+			      ->dimensions(1000, 500)
+			      ->responsive(true)
+			      ->groupBy('quiz_completion');
+        return view('home', compact('chart'));
     }
 }
